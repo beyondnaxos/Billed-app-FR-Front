@@ -23,13 +23,6 @@ const rows = (data) => {
   return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 }
 
-// // trier par date
-// const sortBills = (bills) => { 
-//   return bills.sort((a, b) => {
-//     return new Date(a.date) - new Date(b.date)
-//   })
-// }
-
 
 
 export default ({ data: bills, loading, error }) => {
