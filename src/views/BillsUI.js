@@ -28,13 +28,7 @@ const sortBills = (bills) => {
   return bills.sort((a, b) => {
     const dateA = new Date(a.date)
     const dateB = new Date(b.date)
-    if (dateA.getFullYear() > dateB.getFullYear()) return -1
-    if (dateA.getFullYear() < dateB.getFullYear()) return 1
-    if (dateA.getMonth() > dateB.getMonth()) return -1
-    if (dateA.getMonth() < dateB.getMonth()) return 1
-    if (dateA.getDate() > dateB.getDate()) return -1
-    if (dateA.getDate() < dateB.getDate()) return 1
-    return 0
+    return dateA - dateB
   })
 }
 
