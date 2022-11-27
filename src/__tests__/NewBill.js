@@ -12,6 +12,7 @@ describe("Given I am connected as an employee", () => {
     test("Then ...", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
+      
       //to-do write assertion
     })
   })
