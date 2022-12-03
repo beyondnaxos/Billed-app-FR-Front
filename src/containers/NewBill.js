@@ -17,7 +17,18 @@ export default class NewBill {
     this.billId = null
     new Logout({ document, localStorage, onNavigate })
   }
+
+  
+  // checkExtension(fileName) {
+  //   const extension = fileName.split('.').pop()
+  //   if (extension !== 'jpg' || extension !== 'jpeg' || extension !== 'png') {
+  //     alert('Le fichier doit être une image au format jpg, jpeg ou png')
+  //     return false
+  //   }
+  // }
+  
   handleChangeFile = (e) => {
+    // this.checkExtension(fileName)
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`)
       .files[0]
