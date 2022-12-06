@@ -18,17 +18,16 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate })
   }
 
-  
-  // checkExtension(fileName) {
-  //   const extension = fileName.split('.').pop()
-  //   if (extension !== 'jpg' || extension !== 'jpeg' || extension !== 'png') {
-  //     alert('Le fichier doit être une image au format jpg, jpeg ou png')
-  //     return false
-  //   }
-  // }
-  
+  checkExtension(fileName) {
+    const extension = fileName.split('.').pop()
+    console.log(fileName, extension)
+    if (extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
+      return true
+    }
+    return false
+  }
+
   handleChangeFile = (e) => {
-    // this.checkExtension(fileName)
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`)
       .files[0]
@@ -36,8 +35,9 @@ export default class NewBill {
     const fileName = filePath[filePath.length - 1]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem('user')).email
-    
-    if (!fileName.match(/.(jpg|jpeg|png)$/i)) {
+
+    if (!this.checkExtension(fileName)) {
+      document.querySelector(`input[data-testid="file"]`).value = null
       alert("Le format de l'image n'est pas valide")
       return
     } else {
