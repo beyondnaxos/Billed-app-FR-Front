@@ -17,7 +17,7 @@ describe("Given I am connected as an employee", () => {
       // const verticalLayout = document.querySelector(".vertical-navbar")
       // const iconMail = verticalLayout.querySelector("#icon-mail")
       // to-do write assertion
-      // expect(iconMail.classList.contains("active-icon")).toBeTruthy()
+      expect(iconMail.classList.contains("active-icon")).toBeTruthy()
 
      
     })
