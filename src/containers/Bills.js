@@ -35,13 +35,14 @@ export default class {
       .then(snapshot => {
         const bills = snapshot
           .map(doc => {
-            try {
+           // try {
               return {
                 ...doc,
                 formatedDate: formatDate(doc.date),
                 status: formatStatus(doc.status)
               }
-            } catch(e) {
+            //} 
+            /*catch(e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
               // log the error and return unformatted date in that case
               console.log(e,'for',doc)
@@ -50,10 +51,12 @@ export default class {
                 date: doc.date,
                 status: formatStatus(doc.status)
               }
-            }
+            }*/
           })
           console.log('length', bills.length)
         return bills
+      }).catch(error => {
+        throw error;
       })
     }
   }

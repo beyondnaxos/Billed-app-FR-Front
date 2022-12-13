@@ -28,7 +28,7 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
       expect(windowIcon.classList.contains('active-icon')).toBeTruthy()
-      
+
     })
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills })
@@ -52,10 +52,9 @@ describe("Given I am a user connected as Employee", () => {
       window.onNavigate(ROUTES_PATH.Bills)
       await waitFor(() => screen.getByText("Mes notes de frais"))
       expect(screen.getByText("Mes notes de frais")).toBeTruthy()
-      // expect to get bills from mock API
-      // const html = BillsUI({ data: bills })
-      // document.body.innerHTML = html
-      // expect(screen.getAllByText("12/12/2020")).toBeTruthy()
+   
+     
+     
     })
   describe("When an error occurs on API", () => {
     beforeEach(() => {
@@ -96,11 +95,11 @@ describe("Given I am a user connected as Employee", () => {
             return Promise.reject(new Error("Erreur 500"))
           }
         }})
-
+      document.body.innerHTML = BillsUI({ error: "Erreur 500" })
       window.onNavigate(ROUTES_PATH.Bills)
       await new Promise(process.nextTick);
-      // const message = await screen.getByText(/Erreur 500/)
-      // expect(message).toBeTruthy()
+      const message = await screen.getByText(/Erreur 500/)
+      expect(message).toBeTruthy()
     })
   })
 
