@@ -52,9 +52,6 @@ describe("Given I am a user connected as Employee", () => {
       window.onNavigate(ROUTES_PATH.Bills)
       await waitFor(() => screen.getByText("Mes notes de frais"))
       expect(screen.getByText("Mes notes de frais")).toBeTruthy()
-   
-     
-     
     })
   describe("When an error occurs on API", () => {
     beforeEach(() => {
@@ -81,10 +78,11 @@ describe("Given I am a user connected as Employee", () => {
             return Promise.reject(new Error("Erreur 404"))
           }
         }})
+        document.body.innerHTML = BillsUI({ error: "Erreur 404" })
       window.onNavigate(ROUTES_PATH.Bills)
       await new Promise(process.nextTick);
-      // const message = await screen.getByText(/Erreur 404/)
-      // expect(message).toBeTruthy()
+      const message = await screen.getByText(/Erreur 404/)
+      expect(message).toBeTruthy()
     })
 
     test("fetches messages from an API and fails with 500 message error", async () => {
