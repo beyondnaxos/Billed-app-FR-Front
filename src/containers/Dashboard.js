@@ -35,7 +35,7 @@ export const card = (bill) => {
   firstAndLastNames.split('.')[1] : firstAndLastNames
 
   return (`
-    <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
+    <div class='bill-card inactive' id='open-bill${bill.id}'  data-testid='open-bill${bill.id}'>
       <div class='bill-card-name-container'>
         <div class='bill-card-name'> ${firstName} ${lastName} </div>
         <span class='bill-card-grey'> ... </span>
@@ -86,6 +86,7 @@ export default class {
   }
 
   handleEditTicket(e, bill, bills) {
+    console.log("click")
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id
     if (this.counter % 2 === 0) {
@@ -130,22 +131,22 @@ export default class {
     this.onNavigate(ROUTES_PATH['Dashboard'])
   }
 
+ 
   handleShowTickets(e, bills, index) {
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
-    if (this.counter % 2 === 0) {
+    if (!e.currentTarget.classList.contains('inactive')) {
+      console.log(e.currentTarget)
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
       $(`#status-bills-container${this.index}`)
         .html(cards(filteredBills(bills, getStatus(this.index))))
-      this.counter ++
-    } else {
-      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
-      $(`#status-bills-container${this.index}`)
+        e.currentTarget.classList.add('inactive')   
+      } else {
+        $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
+        $(`#status-bills-container${this.index}`)
         .html("")
-      this.counter ++
+        e.currentTarget.classList.remove('inactive')
     }
-    // utiliser une class css pour observer le state 
-    // problème dupli. event solved 
     filteredBills(bills, getStatus(this.index)).forEach(bill => {
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
     })
@@ -153,6 +154,8 @@ export default class {
     return bills
 
   }
+
+
 
   getBillsAllUsers = () => {
     if (this.store) {
