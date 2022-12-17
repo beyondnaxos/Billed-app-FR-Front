@@ -62,3 +62,12 @@ describe('Given I am connected as an employee', () => {
     })
   })
 })
+
+// test post new bill
+describe('Given I am a user connected as Employee', () => {
+  describe('When I am on NewBill Page', () => {
+    test('Then I should be able to post a new bill', async () => {
+     
+    })
+  })
+})
