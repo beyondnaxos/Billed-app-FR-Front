@@ -14,8 +14,7 @@ const mockedBills = {
       "commentAdmin": "ok",
       "email": "a@a",
       "pct": 20
-    },
-      {
+    },{
         "id": "BeKy5Mo4jkmdfPGYpTxZ",
         "vat": "",
         "amount": 100,
@@ -86,6 +85,7 @@ const mockedBills = {
 
 export default {
   bills() {
+    
     return mockedBills
     //return {}
   },
