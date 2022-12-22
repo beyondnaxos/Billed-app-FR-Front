@@ -8,10 +8,10 @@ import NewBill from '../containers/NewBill.js'
 import { localStorageMock } from '../__mocks__/localStorage.js'
 import mockStore from '../__mocks__/store.js'
 import router from '../app/Router.js'
-import { ROUTES_PATH } from '../constants/routes.js'
+import { ROUTES, ROUTES_PATH } from '../constants/routes.js'
+import { fireEvent } from '@testing-library/dom'
 
-jest.mock("../app/store", () => mockStore)
-
+jest.mock('../app/store', () => mockStore)
 
 describe('Given I am connected as an employee', () => {
   describe('When I am on NewBill Page', () => {
@@ -28,23 +28,10 @@ describe('Given I am connected as an employee', () => {
       await waitFor(() => screen.getByText('Envoyer une note de frais'))
       expect(screen.getByText('Envoyer une note de frais')).toBeTruthy()
     })
-    test('I should see 8 inputs', async () => {
-      localStorage.setItem(
-        'user',
-        JSON.stringify({ type: 'Employee', email: 'e@e' })
-      )
-      const root = document.createElement('div')
-      root.setAttribute('id', 'root')
-      document.body.append(root)
-      router()
-      window.onNavigate(ROUTES_PATH.NewBill)
-      await waitFor(() => screen.getAllByTestId('form-new-bill'))
-      // expect(screen.getAllByTestId('form-new-bill').length).toBe(1)
-    })
   })
 
   describe('When I am on NewBill Page and I upload a file', async () => {
-    jest.spyOn(mockStore, "bills")
+    jest.spyOn(mockStore, 'bills')
 
     localStorage.setItem(
       'user',
@@ -67,13 +54,55 @@ describe('Given I am connected as an employee', () => {
 
     test('It should upload a file and create a bill ', async () => {
       expect()
-      await new Promise(process.nextTick);
-      expect(mockStore.bills().create).toHaveBeenCalled();
-      
+      await new Promise(process.nextTick)
+      expect(mockStore.bills().create).toHaveBeenCalled()
     })
     test('I should see a file with jpg or jpeg or png extension', async () => {
       await waitFor(() => screen.getByTestId('file'))
       expect(screen.getByTestId('file')).toBeTruthy()
     })
+  })
+})
+
+// verify if fetch is done on submit
+describe('When I submit a new bill', () => {
+  test('Then It should create a bill', async () => {
+    const html = NewBillUI()
+
+    document.body.innerHTML = html
+    const onNavigate = (pathname) => {
+      document.body.innerHTML = ROUTES({ pathname })
+    }
+    const newBill = new NewBill({
+      document,
+      onNavigate,
+      store: mockStore,
+      localStorage: window.localStorage,
+    })
+    const handleSubmit = jest.fn(newBill.handleSubmit)
+    const form = screen.getByTestId('form-new-bill')
+    form.addEventListener('submit', handleSubmit)
+    fireEvent.submit(form)
+    expect(handleSubmit).toHaveBeenCalled()
+  })
+})
+
+describe('When I am on newBill page', () => {
+  test(' Then the on image upload checkExtension should return true if file passed is boby.png', () => {
+    const html = NewBillUI()
+
+    document.body.innerHTML = html
+    const onNavigate = (pathname) => {
+      document.body.innerHTML = ROUTES({ pathname })
+    }
+    const newBill = new NewBill({
+      document,
+      onNavigate,
+      store: mockStore,
+      localStorage: window.localStorage,
+    })
+    const checkExtension = jest.fn(newBill.checkExtension)
+    const fileName = 'boby.png'
+    expect(checkExtension(fileName)).toBeTruthy()
   })
 })
