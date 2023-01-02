@@ -9,8 +9,10 @@ import { ROUTES, ROUTES_PATH } from '../constants/routes.js'
 import { localStorageMock } from '../__mocks__/localStorage.js'
 import mockStore from '../__mocks__/store'
 
+
 import router from '../app/Router.js'
 import Bills from '../containers/Bills.js'
+
 
 describe('Given I am connected as an employee', () => {
   describe('When I am on Bills Page', () => {
@@ -55,6 +57,7 @@ describe('Given I am connected as an employee', () => {
         expect(screen.getByText('Envoyer une note de frais')).toBeTruthy()
       })
     })
+
     test('Then it should render getBills', async () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -72,12 +75,12 @@ describe('Given I am connected as an employee', () => {
         store: mockStore,
         localStorage: window.localStorage,
       })
-      
+
       const getBills = await bills.getBills()
 
       expect(getBills[0].formatedDate).toBe('4 Avr. 04')
-      
     })
+
     test('Then it should catch error', async () => {
 
       const badmock = {
@@ -132,7 +135,7 @@ describe('Given I am connected as an employee', () => {
 // test d'intégration GET
 describe('Given I am a user connected as Employee', () => {
   describe('When I navigate to Bills', () => {
-    test('fetches bills from mock API GET', async () => {
+    test('The it should fetches bills from mock API GET', async () => {
       localStorage.setItem(
         'user',
         JSON.stringify({ type: 'Employee', email: 'e@e' })
@@ -147,7 +150,7 @@ describe('Given I am a user connected as Employee', () => {
       expect(screen.getByText('Mes notes de frais')).toBeTruthy()
     })
 
-    test('click on icon-eye should make the modal open', async () => {
+    test('Then click on icon-eye should make the modal open', async () => {
       $.fn.modal = jest.fn()
       localStorage.setItem(
         'user',
@@ -165,8 +168,6 @@ describe('Given I am a user connected as Employee', () => {
         expect($.fn.modal).toHaveBeenCalled()
       })
     })
-
-    //  vérfier si la phrase sur la page new bill est bien présente
 
     describe('When an error occurs on API', () => {
       beforeEach(() => {
@@ -186,7 +187,8 @@ describe('Given I am a user connected as Employee', () => {
         document.body.appendChild(root)
         router()
       })
-      test('fetches bills from an API and fails with 404 message error', async () => {
+
+      test(' Then it should fetch bills from an API and fails with 404 message error', async () => {
         mockStore.bills.mockImplementationOnce(() => {
           return {
             list: () => {
@@ -196,12 +198,12 @@ describe('Given I am a user connected as Employee', () => {
         })
         document.body.innerHTML = BillsUI({ error: 'Erreur 404' })
         window.onNavigate(ROUTES_PATH.Bills)
-        await new Promise(process.nextTick)
-        const message = await screen.getByText(/Erreur 404/)
+        // await new Promise(process.nextTick)
+        const message = await screen.findByText(/Erreur 404/)
         expect(message).toBeTruthy()
       })
 
-      test('fetches messages from an API and fails with 500 message error', async () => {
+      test('Then it should fetch bills from an API and fails with 500 message error', async () => {
         mockStore.bills.mockImplementationOnce(() => {
           return {
             list: () => {
@@ -211,8 +213,8 @@ describe('Given I am a user connected as Employee', () => {
         })
         document.body.innerHTML = BillsUI({ error: 'Erreur 500' })
         window.onNavigate(ROUTES_PATH.Bills)
-        await new Promise(process.nextTick)
-        const message = await screen.getByText(/Erreur 500/)
+        // await new Promise(process.nextTick)
+        const message = await screen.findByText(/Erreur 500/)
         expect(message).toBeTruthy()
       })
     })
