@@ -44,7 +44,7 @@ describe('Given I am connected as an employee', () => {
       const datesSorted = [...dates].sort(antiChrono)
       expect(dates).toEqual(datesSorted)
     })
-
+ 
     describe('When I click on the New Bill button', () => {
       test('Then it should render NewBill page', () => {
         const root = document.createElement('div')
