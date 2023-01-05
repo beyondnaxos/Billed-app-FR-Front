@@ -15,7 +15,7 @@ jest.mock('../app/store', () => mockStore)
 
 describe('Given I am connected as an employee', () => { 
   describe('When I am on NewBill Page', () => {
-    test('I should see a title names ( Envoyer une note de frais) ', async () => {
+    test('I should see a title name ( Envoyer une note de frais) ', async () => {
       localStorage.setItem(
         'user',
         JSON.stringify({ type: 'Employee', email: 'e@e' })
